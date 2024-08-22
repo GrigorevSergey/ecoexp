@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Форма заявки</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"], textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button[type="button"], button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button[type="button"] {
+            background-color: #007BFF;
+        }
+
+        button[type="button"]:hover, button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        button[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        #post-value-fields div {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+    </style>
+    <script>
+        function addPostValueField() {
+            // Создаем контейнер для нового блока полей
+            const newFieldContainer = document.createElement('div');
+            newFieldContainer.innerHTML = `
+                <div>
+                    <label for="title">Категория:</label>
+                    <select id="title" name="title[]" required>
+                        <option value="Химические_показатели">Химические показатели</option>
+                        <option value="Определение_удельной_активности">Определение удельной активности</option>
+                        <option value="Токсикологические_исследования">Токсикологические исследования</option>
+                        <option value="Гидробиологические_исследования">Гидробиологические исследования</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="category">Тип показателя:</label>
+                    <select id="category" name="category[]" required>
+                        <option value="Морская вода">Морская вода</option>
+                        <option value="Донные отложения">Донные отложения</option>
+                        <option value="Грунты">Грунты</option>
+                        <option value="Почва">Почва</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="value">Значение:</label>
+                    <input type="number" id="value" name="value[]" required>
+                </div>
+
+                <div>
+                    <label for="name_of_indicators">Наименование показателя:</label>
+                    <textarea id="name_of_indicators" name="name_of_indicators[]" required></textarea>
+                </div>
+            `;
+
+            // Добавляем новый блок полей в форму
+            document.getElementById('post-value-fields').appendChild(newFieldContainer);
+        }
+    </script>
+</head>
+<body>
+
+    <form action="{% url 'post_form' %}" method="post">
+        {% csrf_token %}
+
+        <h1>Форма заявки</h1>
+
+        <div>
+            <label for="customer">Заказчик:</label>
+            <input type="text" id="customer" name="customer" required>
+        </div>
+
+        <div>
+            <label for="customer_address">Адрес местонахождения Заказчика:</label>
+            <input type="text" id="customer_address" name="customer_address" required>
+        </div>
+
+        <div>
+            <label for="name_official">Должность:</label>
+            <input type="text" id="name_official" name="name_official" value="Директор Жигульский В.А" required>
+        </div>
+
+        <div>
+            <label for="contract">Договор:</label>
+            <input type="text" id="contract" name="contract" required>
+        </div>
+
+        <div>
+            <label for="name_of_the_object">Наименование объекта:</label>
+            <textarea id="name_of_the_object" name="name_of_the_object" required></textarea>
+        </div>
+
+        <div>
+            <label for="location_object">Место расположения объекта:</label>
+            <textarea id="location_object" name="location_object" required></textarea>
+        </div>
+
+        <div>
+            <label for="the_presence_of_harmful_factors">Наличие вредных производственных факторов:</label>
+            <input type="checkbox" id="the_presence_of_harmful_factors" name="the_presence_of_harmful_factors">
+        </div>
+
+        <div>
+            <label for="the_purpose_of_the_research">Цель проведения исследований:</label>
+            <input type="text" id="the_purpose_of_the_research" name="the_purpose_of_the_research" required>
+        </div>
+
+        <h2>Показатели</h2>
+
+        <div id="post-value-fields">
+            <div>
+                <label for="title">Категория:</label>
+                <select id="title" name="title[]" required>
+                    <option value="Химические_показатели">Химические показатели</option>
+                    <option value="Определение_удельной_активности">Определение удельной активности</option>
+                    <option value="Токсикологические_исследования">Токсикологические исследования</option>
+                    <option value="Гидробиологические_исследования">Гидробиологические исследования</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="category">Тип показателя:</label>
+                <select id="category" name="category[]" required>
+                    <option value="Морская вода">Морская вода</option>
+                    <option value="Донные отложения">Донные отложения</option>
+                    <option value="Грунты">Грунты</option>
+                    <option value="Почва">Почва</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="value">Значение:</label>
+                <input type="number" id="value" name="value[]" required>
+            </div>
+
+            <div>
+                <label for="name_of_indicators">Наименование показателя:</label>
+                <textarea id="name_of_indicators" name="name_of_indicators[]" required></textarea>
+            </div>
+        </div>
+
+        <!-- Кнопка для добавления новых показателей -->
+        <button type="button" onclick="addPostValueField()">Добавить показатель</button>
+
+        <!-- Кнопка отправки формы -->
+        <button type="submit">Отправить</button>
+    </form>
+
+</body>
+</html>
