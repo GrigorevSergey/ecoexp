@@ -1,1 +1,1 @@
-EMAIL_HOST_PASSWORD = 'ciwraioznapxuzzy'
+EMAIL_HOST_PASSWORD = ''
